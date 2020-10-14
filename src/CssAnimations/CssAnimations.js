@@ -31,16 +31,19 @@ const defaultProps = {
 /**
  * Defines the keyframes.
  */
-const keyframe = keyframes((props) => ({
-  ...props.keyframes,
-}));
+const animationKeyframe = (props) => keyframes({ ...props.keyframes });
+
+const animationKeyframe2 = keyframes({
+  from: { transform: "translateX(-50px)" },
+  to: { transform: "translateX(50px)" },
+});
 
 /**
  * Defines the animation.
  */
-const style = (props) => {
+const animationStyle = (props) => {
   return {
-    animationName: `${keyframe}`,
+    animationName: `${animationKeyframe(props)}`,
     animationDuration: props.duration,
     animationTimingFunction: props.timingFunction,
     animationDelay: props.delay,
@@ -58,7 +61,7 @@ const CssAnimations = (props) => {
   const { animation, children } = props;
 
   return (
-    <div className={cx("CssAnimations", css([style(animation)]))}>
+    <div className={cx("CssAnimations", css([animationStyle(animation)]))}>
       {children}
     </div>
   );

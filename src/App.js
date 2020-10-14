@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { cx, css, injectGlobal } from "emotion";
+import { cx, css, injectGlobal, keyframes } from "emotion";
 
 import { ThemeContext } from ".";
 import CssAnimations from "./CssAnimations";
@@ -63,7 +63,7 @@ const list = (props) => {
 
 const cssList = css(list);
 
-//
+// Animation
 //
 
 const container = {
@@ -91,6 +91,32 @@ const animation = {
     from: { transform: "translateX(-50px)" },
     to: { transform: "translateX(50px)" },
   },
+};
+
+const bounce = keyframes({
+  "from, 20%, 53%, 80%, to": {
+    transform: "translate3d(0,0,0)",
+  },
+  "40%, 43%": {
+    transform: "translate3d(0, -30px, 0)",
+  },
+  "70%": {
+    transform: "translate3d(0, -15px, 0)",
+  },
+  "90%": {
+    transform: "translate3d(0, -4px, 0)",
+  },
+});
+
+const animationForBounce = {
+  animation: `${bounce} 1s ease infinite`,
+};
+
+const animationForBounce2 = {
+  animationName: `${bounce}`,
+  animationDuration: "1s",
+  animationTimingFunction: "ease",
+  animationIterationCount: "infinite",
 };
 
 const App = () => {
@@ -137,6 +163,12 @@ const App = () => {
         <li>& :nth-child(2) should be blue, color white</li>
         <li>xxx</li>
       </ul>
+      <div className={cx("Bounce", css(animationForBounce))}>
+        Text is bouncing
+      </div>
+      <div className={cx("Bounce2", css(animationForBounce2))}>
+        Text is bouncing2
+      </div>
       <div className={cx("Container", css(container))}>
         <CssAnimations animation={animation}>
           <div className={cx("Square", css(square))} />
