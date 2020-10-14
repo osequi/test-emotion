@@ -10,6 +10,15 @@ const style2 = {
   backgroundColor: "red",
 };
 
+const style3 = {
+  label: "style3",
+  backgroundColor: "red",
+};
+
+it("It works fine when a style object with a `label` is passed.", () => {
+  expect(JSON.stringify(useStyles([style3]))).toContain("style3Klass");
+});
+
 it("Falls back silently when a style object is passed instead of a style function.", () => {
   expect(JSON.stringify(useStyles([style2]))).toContain(
     "is-object-not-function"

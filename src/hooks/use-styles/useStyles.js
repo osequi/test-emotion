@@ -1,9 +1,9 @@
 import { css } from "emotion";
-import { upperFirst, camelCase } from "lodash";
+import { camelCase } from "lodash";
 
 /**
- * Transforms CSS style functions into classNames for Emotion.
- * Example: const { kStyle1, kStyle2 } = useStyles([style1, style2], props, theme)
+ * Transforms CSS style functions  and style objects with labels into classNames for Emotion.
+ * Example: `const { styleFunctionKlass, styleObjectWithLabelKlass } = useStyles([styleFunction, styleObjectWithLabel], props, theme)`
  */
 const useStyles = (...args) => {
   /**
@@ -22,11 +22,26 @@ const useStyles = (...args) => {
        */
       const isFunction = item && item.name;
       /**
-       * Adds a `Klass` suffix to the style function name.
+       * Checks if this is a style object with a label.
        */
-      const name = isFunction ? `${item.name}Klass` : "is-object-not-function";
+      const isObjectWithLabel = item && item.label;
       /**
+       * Logs a warning message if a style object without a label is passed.
+       */
+      if (!isFunction && !isObjectWithLabel) {
+        console.log("A style object without label was received:", item);
+      }
+      /**
+       * Adds a `Klass` suffix to the style function name / style object label.
        * Falls back silently when a style object is passed instead of a style function.
+       */
+      const name = isFunction
+        ? `${item.name}Klass`
+        : isObjectWithLabel
+        ? `${camelCase(item.label)}Klass`
+        : "is-object-not-function";
+      /**
+       * Returns value both for style functions and objects.
        */
       const value = isFunction ? css(item(props, theme)) : css(item);
       return { ...result, [`${name}`]: value };

@@ -141,7 +141,7 @@ const App = () => {
   //// NOTE: a useStyles(props) hooks is very missed here ....
   //// Not sure if possible even in v11: https://github.com/emotion-js/emotion/issues/1321
 
-  const { props1Klass, listKlass, useStylesTestKlass } = useStyles(
+  const { props1Klass, listKlass, useStylesTestKlass, simpleKlass } = useStyles(
     [props1, list, useStylesTest, simple],
     props,
     theme
@@ -160,6 +160,7 @@ const App = () => {
       </ol>
       <div className={css([simple])}>Background is red</div>
       <div className={cssSimple}>Background is red. Set without `css`</div>
+      <div className={simpleKlass}>Background is red. Set wit `useStyles`</div>
       <div className={css([composed])}>Background is red, color is white</div>
       <div className={css([simpleWithTheme(theme)])}>
         Background is red. Font is monospace, set by the theme
