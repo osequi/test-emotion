@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { cx, css, injectGlobal } from "emotion";
+
+import { ThemeContext } from ".";
 
 injectGlobal`
 * {
@@ -14,6 +16,13 @@ const simple = {
 };
 
 const cssSimple = css(simple);
+
+const simpleWithTheme = (theme) => {
+  return {
+    ...simple,
+    ...theme.typography,
+  };
+};
 
 const white = {
   label: "White",
@@ -59,6 +68,8 @@ const App = () => {
     selector: "& :nth-child(2)",
   };
 
+  const theme = useContext(ThemeContext);
+
   //// NOTE: a useStyles(props) hooks is very missed here ....
   //// Not sure if possible even in v11: https://github.com/emotion-js/emotion/issues/1321
 
@@ -76,6 +87,9 @@ const App = () => {
       <div className={css([simple])}>Background is red</div>
       <div className={cssSimple}>Background is red. Set without `css`</div>
       <div className={css([composed])}>Background is red, color is white</div>
+      <div className={css([simpleWithTheme(theme)])}>
+        Background is red. Font is monospace, set by the theme
+      </div>
       <div className={css([props1(props)])}>
         Backgroud is yellow. Set by props.
       </div>

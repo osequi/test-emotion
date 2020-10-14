@@ -1,11 +1,21 @@
-import React from "react";
+import React, { createContext } from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
+const theme = {
+  typography: {
+    fontFamily: "monospace",
+  },
+};
+
+export const ThemeContext = createContext(theme);
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ThemeContext.Provider value={theme}>
+      <App />
+    </ThemeContext.Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );
