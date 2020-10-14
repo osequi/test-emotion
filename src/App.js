@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { cx, css, injectGlobal } from "emotion";
 
 import { ThemeContext } from ".";
+import CssAnimations from "./CssAnimations";
 
 injectGlobal`
 * {
@@ -62,6 +63,36 @@ const list = (props) => {
 
 const cssList = css(list);
 
+//
+//
+
+const container = {
+  width: "400px",
+  height: "400px",
+  border: "1px solid",
+
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+};
+
+const square = {
+  width: "200px",
+  height: "200px",
+  background: "lightgreen",
+};
+
+const animation = {
+  duration: "2s",
+  timingFunction: "ease-in-out",
+  iterationCount: "infinite",
+  direction: "alternate",
+  keyframes: {
+    from: { transform: "translateX(-50px)" },
+    to: { transform: "translateX(50px)" },
+  },
+};
+
 const App = () => {
   const props = {
     backgroundColor: "yellow",
@@ -106,6 +137,11 @@ const App = () => {
         <li>& :nth-child(2) should be blue, color white</li>
         <li>xxx</li>
       </ul>
+      <div className={cx("Container", css(container))}>
+        <CssAnimations animation={animation}>
+          <div className={cx("Square", css(square))} />
+        </CssAnimations>
+      </div>
     </>
   );
 };
