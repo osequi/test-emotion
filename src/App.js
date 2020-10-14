@@ -3,6 +3,7 @@ import { cx, css, injectGlobal, keyframes } from "emotion";
 
 import { ThemeContext } from ".";
 import CssAnimations from "./CssAnimations";
+import { useStyles } from "./hooks";
 
 injectGlobal`
 * {
@@ -119,6 +120,16 @@ const animationForBounce2 = {
   animationIterationCount: "infinite",
 };
 
+// useStyles
+//
+
+const useStylesTest = (props, theme) => {
+  return {
+    backgroundColor: props.backgroundColor,
+    ...theme.typography,
+  };
+};
+
 const App = () => {
   const props = {
     backgroundColor: "yellow",
@@ -129,6 +140,12 @@ const App = () => {
 
   //// NOTE: a useStyles(props) hooks is very missed here ....
   //// Not sure if possible even in v11: https://github.com/emotion-js/emotion/issues/1321
+
+  const { props1Klass, listKlass, useStylesTestKlass } = useStyles(
+    [props1, list, useStylesTest, simple],
+    props,
+    theme
+  );
 
   return (
     <>
@@ -151,7 +168,10 @@ const App = () => {
         Backgroud is yellow. Set by props.
       </div>
       <div className={cssProps1(props)}>
-        Backgroud is yellow. Set by props.Set without `css`
+        Backgroud is yellow. Set by props. Set without `css`
+      </div>
+      <div className={props1Klass}>
+        Backgroud is yellow. Set by props. Set with `useStyles`
       </div>
       <ul className={css([list(props)])}>
         <li>& :nth-child(1) should be green</li>
@@ -163,6 +183,11 @@ const App = () => {
         <li>& :nth-child(2) should be blue, color white</li>
         <li>xxx</li>
       </ul>
+      <ul className={listKlass}>
+        <li>& :nth-child(1) should be green.</li>
+        <li>& :nth-child(2) should be blue.</li>
+        <li>xxx. Set with `useStyles`</li>
+      </ul>
       <div className={cx("Bounce", css(animationForBounce))}>
         Text is bouncing
       </div>
@@ -173,6 +198,10 @@ const App = () => {
         <CssAnimations animation={animation}>
           <div className={cx("Square", css(square))} />
         </CssAnimations>
+      </div>
+      <div className={useStylesTestKlass}>
+        Backgroud is yellow. Set by props. Font is monospace. Set by theme. Set
+        with `useStyles`
       </div>
     </>
   );
