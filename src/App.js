@@ -1,5 +1,12 @@
 import React from "react";
-import { cx, css } from "emotion";
+import { cx, css, injectGlobal } from "emotion";
+
+injectGlobal`
+* {
+	box-sizing: border-box;
+	background: snow;
+}
+`;
 
 const simple = {
   label: "Simple",
@@ -53,26 +60,34 @@ const App = () => {
   };
 
   //// NOTE: a useStyles(props) hooks is very missed here ....
+  //// Not sure if possible even in v11: https://github.com/emotion-js/emotion/issues/1321
 
   return (
     <>
       <h1>Gotchas</h1>
       <ol>
         <li>Always use `cx`. It includes the `label`</li>
+        <li>
+          Always use `css([])`. Adding more styles / classes is less verbose.
+        </li>
+        <li>Combined: `cx('ClassName', css([]))`</li>
+        <li>Best DX would be: `cx('ClassName', klass1, klass2)`</li>
       </ol>
-      <div className={css(simple)}>Background is red</div>
+      <div className={css([simple])}>Background is red</div>
       <div className={cssSimple}>Background is red. Set without `css`</div>
-      <div className={css(composed)}>Background is red, color is white</div>
-      <div className={css(props1(props))}>
+      <div className={css([composed])}>Background is red, color is white</div>
+      <div className={css([props1(props)])}>
         Backgroud is yellow. Set by props.
       </div>
-      <div className={cssProps1(props)}>Backgroud is yellow. Set by props.</div>
-      <ul className={css(list(props))}>
+      <div className={cssProps1(props)}>
+        Backgroud is yellow. Set by props.Set without `css`
+      </div>
+      <ul className={css([list(props)])}>
         <li>& :nth-child(1) should be green</li>
         <li>& :nth-child(2) should be blue.</li>
         <li>xxx</li>
       </ul>
-      <ul className={cx(css(list(props)), css(white), "Cx")}>
+      <ul className={cx(css([list(props), white]), "Cx")}>
         <li>& :nth-child(1) should be green, color white</li>
         <li>& :nth-child(2) should be blue, color white</li>
         <li>xxx</li>
