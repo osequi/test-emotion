@@ -20,9 +20,7 @@ it("It works fine when a style object with a `label` is passed.", () => {
 });
 
 it("Falls back silently when a style object is passed instead of a style function.", () => {
-  expect(JSON.stringify(useStyles([style2]))).toContain(
-    "is-object-not-function"
-  );
+  expect(JSON.stringify(useStyles([style2]))).toContain("object-without-label");
 });
 
 it("Adds a `Klass` suffix to the style object name", () => {
